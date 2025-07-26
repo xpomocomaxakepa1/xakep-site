@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <title>XPOMOCOMA XAKEPA</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background: #000;
+      color: #00ff00;
+      font-family: 'Courier New', Courier, monospace;
+      overflow: hidden;
+    }
+
+    .matrix-background {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -1;
+      background: black;
+    }
+
+    canvas {
+      display: block;
+    }
+
+    .slider {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 90%;
+      max-width: 700px;
+      padding: 30px;
+      background-color: rgba(0, 0, 0, 0.85);
+      border: 1px solid #00ff00;
+      border-radius: 10px;
+      transition: opacity 1s ease-in-out;
+    }
+
+    h1, h2 {
+      text-align: center;
+      text-shadow: 0 0 5px #00ff00, 0 0 10px #00ff00;
+    }
+
+    h1 {
+      font-size: 2.2em;
+      margin-bottom: 20px;
+    }
+
+    h2 {
+      font-size: 1.5em;
+      margin-bottom: 10px;
+    }
+
+    p {
+      font-size: 1.1em;
+      line-height: 1.6;
+      text-shadow: 0 0 3px #00ff00;
+    }
+
+    .controls {
+      margin-top: 30px;
+      text-align: center;
+    }
+
+    .controls button {
+      background: black;
+      border: 1px solid #00ff00;
+      color: #00ff00;
+      font-family: inherit;
+      padding: 10px 20px;
+      margin: 0 10px;
+      cursor: pointer;
+      text-shadow: 0 0 3px #00ff00;
+      transition: background 0.3s;
+    }
+
+    .controls button:hover {
+      background: #00ff00;
+      color: #000;
+      text-shadow: none;
+    }
+  </style>
+</head>
+<body>
+
+<div class="matrix-background">
+  <canvas id="matrix"></canvas>
+</div>
+
+<div class="slider" id="slide">
+  <!-- Слайды будут подставляться сюда -->
+</div>
+
+<div class="controls">
+  <button onclick="prevSlide()">← Назад</button>
+  <button onclick="nextSlide()">Вперёд →</button>
+</div>
+
+<script>
+  // Тексты слайдов
+  const slides = [
+    {
+      title: "XPOMOCOMA XAKEPA",
+      content: Я — владелец хакерской группировки Bloody April, которая была создана в 2023 году. На данный момент в нашем составе более 3000 хакеров. Мы не делаем пакостей без причины — мы лишь наказываем плохих людей для личной выгоды и/или справедливости. Наша группировка продаёт хакерские услуги, за которыми вы можете обратиться к нашему лидеру.
+    },
+    {
+      title: "Лидер XPOMOCOMA XAKEPA",
+      content: Считается самым молодым хакером в истории, который ничем не уступает остальным. Начинал лидер с обычных сайтов и вирусов, следующий этап — пентестинг... Лидер очень доброжелательный человек, с которым вы можете пообщаться без какого-либо повода.
+    },
+    {
+      title: "Связь с лидером/поддержкой группировки",
+      content: Телеграм: @XPOMOCOMA_XAKEPA<br>Эл. почта: bloodyaprilinfo@gmail.com
+    }
+  ];
+
+  let current = 0;
+  const slide = document.getElementById('slide');
+
+  function renderSlide(index) {
+    slide.style.opacity = 0;
+    setTimeout(() => {
+      slide.innerHTML = `
+        <h1>${slides[index].title}</h1>
+        <p>${slides[index].content}</p>
+      `;
+      slide.style.opacity = 1;
+    }, 400);
+  }
+
+  function nextSlide() {
+    current = (current + 1) % slides.length;
+    renderSlide(current);
+  }
+
+  function prevSlide() {
+    current = (current - 1 + slides.length) % slides.length;
+    renderSlide(current);
+  }
+
+  renderSlide(current);
+</script>
+
+<!-- MATRIX EFFECT -->
+<script>
+  const canvas = document.getElementById("matrix");
+  const ctx = canvas.getContext("2d");
+
+  canvas.height = window.innerHeight;
+  canvas.width = window.innerWidth;
+
+  const letters = "01";
+  const fontSize = 14;
+  const columns = canvas.width / fontSize;
+  const drops = [];
+
+  for(let x = 0; x < columns; x++)
+    drops[x] = 1;
+
+  function drawMatrix() {
+    ctx.fillStyle = "rgba(0, 0, 0, 0.05)";
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+    ctx.fillStyle = "#0F0";
+    ctx.font = fontSize + "px monospace";
+for(let i = 0; i < drops.length; i++) {
+      const text = letters[Math.floor(Math.random() * letters.length)];
+      ctx.fillText(text, i * fontSize, drops[i] * fontSize);
+
+      if(drops[i] * fontSize > canvas.height && Math.random() > 0.975)
+        drops[i] = 0;
+
+      drops[i]++;
+    }
+  }
+
+  setInterval(drawMatrix, 35);
+</script>
+
+</body>
+</html>
